@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Avatar, Table } from "antd";
 import * as Icon from "@ant-design/icons";
 import * as echarts from "echarts";
+import MyEchart from "../../components/Echarts/index.jsx";
 
 import "./Home.css";
-import { getData } from "../../api/home/index";
+import { getData, getEchartData } from "../../api/home/index";
 
 const list = [
   {
@@ -49,6 +50,8 @@ const getIconElement = (name) => React.createElement(Icon[name]);
 
 const Home = () => {
   const [dataSource, setDataSource] = useState([]);
+  const [echartdata, setEchartdata] = useState([]);
+
   const columns = [
     {
       title: "姓名",
@@ -71,27 +74,13 @@ const Home = () => {
       key: "region",
     },
   ];
+
   useEffect(() => {
     getData().then(({ data }) => {
       setDataSource(data);
     });
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById("main"));
-    // 绘制图表
-    myChart.setOption({
-      title: {},
-      tooltip: {},
-      xAxis: {
-        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
-      },
-      yAxis: {},
-      series: [
-        {
-          name: "销量",
-          type: "bar",
-          data: [5, 20, 36, 10, 10, 20],
-        },
-      ],
+    getEchartData().then(({ data }) => {
+      setEchartdata(data);
     });
   }, []);
   return (
@@ -144,7 +133,7 @@ const Home = () => {
             );
           })}
         </div>
-        <div id="main" style={{ width: "100%", height: "300px" }}></div>
+        {/* <MyEchart chartData={echartdata} /> */}
       </Col>
     </Row>
   );

@@ -48,6 +48,77 @@ Mock.mock(/home\/getData/, "get", () => {
     ],
   };
 });
+
+Mock.mock(/home\/getEchartData/, "get", () => {
+  return {
+    code: 200,
+    msg: "success",
+    data: {
+      date: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      tableData: [
+        {
+          name: "china",
+          value: [140, 232, 101, 264, 90, 340, 250],
+        },
+        {
+          name: "usa",
+          value: [120, 282, 111, 234, 220, 340, 310],
+        },
+        {
+          name: "uk",
+          value: [60, 191, 234, 290, 330, 310, 120],
+        },
+        {
+          name: "russia",
+          value: [220, 182, 191, 234, 290, 330, 310],
+        },
+      ],
+    },
+  };
+});
+Mock.mock(/home\/getUser/, "get", () => {
+  return {
+    code: 200,
+    msg: "success",
+    data: [
+      {
+        id: 1,
+        name: "张三",
+        role: "软件工程师",
+        skills: "Python",
+        region: "北京",
+      },
+      {
+        id: 2,
+        name: "李四",
+        role: "数据分析师",
+        skills: "R",
+        region: "上海",
+      },
+      {
+        id: 3,
+        name: "王五",
+        role: "产品经理",
+        skills: "需求分析",
+        region: "深圳",
+      },
+      {
+        id: 4,
+        name: "赵六",
+        role: "UI设计师",
+        skills: "Photoshop",
+        region: "广州",
+      },
+      {
+        id: 5,
+        name: "钱七",
+        role: "前端工程师",
+        skills: "HTML, CSS, JavaScript",
+        region: "杭州",
+      },
+    ],
+  };
+});
 Mock.mock("/mock/random", "get", {
   code: 200,
   message: "random success",

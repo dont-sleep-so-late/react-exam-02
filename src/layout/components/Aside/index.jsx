@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MenuConfig from "../../../config/index";
 import * as Icon from "@ant-design/icons";
 import { Layout, Menu } from "antd";
+import { useNavigate } from "react-router-dom";
 const { Sider } = Layout;
 
 //动态获取icon
@@ -29,6 +30,11 @@ const items = MenuConfig.map((icon) => {
 });
 
 const Aside = ({ collapsed }) => {
+  const navigate = useNavigate();
+  //点击菜单
+  const selectMenu = (e) => {
+    navigate(e.key);
+  };
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <h1 className="app-name">{collapsed ? "你好" : "你别睡这么晚"}</h1>
@@ -37,6 +43,7 @@ const Aside = ({ collapsed }) => {
         mode="inline"
         defaultSelectedKeys={["1"]}
         items={items}
+        onClick={selectMenu}
       />
     </Sider>
   );

@@ -14,8 +14,15 @@ export default [
     url: "MallManage/MallManage",
   },
   {
-    path: "/settings",
-    name: "settings",
+    path: "/user",
+    name: "user",
+    label: "用户管理",
+    icon: "PieChartOutlined",
+    url: "MallManage/MallManage",
+  },
+  {
+    path: "/userSettings",
+    name: "userSettings",
     label: "个人设置",
     icon: "PieChartOutlined",
     url: "MallManage/MallManage",

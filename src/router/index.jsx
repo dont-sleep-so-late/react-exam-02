@@ -4,6 +4,7 @@ import App from "../layout/index";
 import Home from "../pages/home/Home";
 import Mail from "../pages/mail/Mail";
 import User from "../pages/user/User";
+import UserSettings from "../pages/userSettings/UserSettings";
 
 const routes = [
   {
@@ -26,8 +27,13 @@ const routes = [
       },
       {
         path: "user",
-        title: "用户",
+        title: "用户管理",
         Component: User,
+      },
+      {
+        path: "UserSettings",
+        title: "个人设置",
+        Component: UserSettings,
       },
     ],
   },

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import * as echarts from "echarts";
 
 //echarts 配置项
