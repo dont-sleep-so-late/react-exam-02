@@ -28,10 +28,10 @@ const items = MenuConfig.map((icon) => {
   return child;
 });
 
-const Aside = () => {
+const Aside = ({ collapsed }) => {
   return (
-    <Sider trigger={null} collapsible>
-      <h1 className="app-name">你别睡这么晚</h1>
+    <Sider trigger={null} collapsible collapsed={collapsed}>
+      <h1 className="app-name">{collapsed ? "你好" : "你别睡这么晚"}</h1>
       <Menu
         theme="dark"
         mode="inline"

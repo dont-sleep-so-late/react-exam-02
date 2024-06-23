@@ -5,31 +5,45 @@ import Mock from "mockjs";
 //   timeout: "200-600",
 // });
 
-Mock.mock("/api/test", "get", () => {
+Mock.mock(/home\/getData/, "get", () => {
   return {
     code: 200,
     msg: "success",
     data: [
       {
         id: 1,
-        姓名: "张三",
-        角色: "软件工程师",
-        主要技能: "Python",
-        地区: "北京",
+        name: "张三",
+        role: "软件工程师",
+        skills: "Python",
+        region: "北京",
       },
       {
         id: 2,
-        姓名: "李四",
-        角色: "数据分析师",
-        主要技能: "R",
-        地区: "上海",
+        name: "李四",
+        role: "数据分析师",
+        skills: "R",
+        region: "上海",
       },
       {
         id: 3,
-        姓名: "王五",
-        角色: "产品经理",
-        主要技能: "需求分析",
-        地区: "深圳",
+        name: "王五",
+        role: "产品经理",
+        skills: "需求分析",
+        region: "深圳",
+      },
+      {
+        id: 4,
+        name: "赵六",
+        role: "UI设计师",
+        skills: "Photoshop",
+        region: "广州",
+      },
+      {
+        id: 5,
+        name: "钱七",
+        role: "前端工程师",
+        skills: "HTML, CSS, JavaScript",
+        region: "杭州",
       },
     ],
   };
