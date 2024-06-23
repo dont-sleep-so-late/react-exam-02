@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Table } from "antd";
+import { Button, Form, Input, Table, Popconfirm, Modal, message } from "antd";
 import "./User.css";
 import { useEffect } from "react";
-import { getUser } from "../../api/home";
+import { getUser, addUser, updateUser, deleteUser } from "../../api/home";
 
 const User = () => {
   const [tableData, setTableData] = useState([]);
   const [listData, setListData] = useState({});
+  const [modalType, setModalType] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
+
   const columns = [
     {
       title: "身份ID",
@@ -35,20 +40,49 @@ const User = () => {
     },
     {
       title: "操作",
-      render: (text, record) => (
+      render: (rowData) => (
         <div className="flex-box">
-          <Button type="primary" onClick={handleClick("edit")}>
+          <Button
+            type="primary"
+            onClick={() => {
+              handleClick("edit", rowData);
+            }}
+          >
             编辑
           </Button>
-          <Button type="primary" danger onClick={handleClick("edit")}>
-            删除
-          </Button>
+          <Popconfirm
+            title="确定要删除吗？"
+            onConfirm={() => handleDelete(rowData)}
+            okText="确定"
+            cancelText="取消"
+          >
+            <Button type="primary" danger>
+              删除
+            </Button>
+          </Popconfirm>
         </div>
       ),
     },
   ];
-  const handleClick = () => {
+
+  const handleClick = (type, data) => {
+    setIsModalOpen(true);
     // 处理点击事件
+    if (type == "add") {
+      setModalType(0);
+    } else {
+      setModalType(1);
+      //表单数据回填
+      form.setFieldsValue(data);
+    }
+  };
+
+  const handleDelete = (data) => {
+    // 处理删除事件
+    deleteUser(data).then((res) => {
+      handleCancel();
+      getTableData();
+    });
   };
 
   const handleFinish = (e) => {
@@ -65,6 +99,37 @@ const User = () => {
     });
   };
 
+  const handleOK = () => {
+    // 处理确定按钮点击事件
+    form
+      .validateFields()
+      .then((values) => {
+        setIsModalOpen(false);
+        if (modalType) {
+          //编辑
+          updateUser(values).then((res) => {
+            handleCancel();
+            getTableData();
+          });
+        } else {
+          // 新增
+          addUser(values).then((res) => {
+            handleCancel();
+            getTableData();
+          });
+        }
+      })
+      .catch((info) => {
+        console.log("Validate Failed:", info);
+      });
+  };
+
+  const handleCancel = () => {
+    // 处理取消按钮点击事件
+    setIsModalOpen(false);
+    form.resetFields();
+  };
+
   useEffect(() => {
     // 页面加载时执行的函数
     getTableData();
@@ -73,7 +138,12 @@ const User = () => {
   return (
     <div className="user">
       <div className="flex-box">
-        <Button type="primary" onClick={handleClick("add")}>
+        <Button
+          type="primary"
+          onClick={() => {
+            handleClick("add");
+          }}
+        >
           新增
         </Button>
         <Form layout="inline" onFinish={handleFinish}>
@@ -88,6 +158,57 @@ const User = () => {
         </Form>
       </div>
       <Table dataSource={tableData} columns={columns} rowKey={"id"} />;
+      <Modal
+        title={modalType ? "编辑用户" : "新增用户"}
+        open={isModalOpen}
+        onOk={handleOK}
+        onCancel={handleCancel}
+        okText="确定"
+        cancelText="取消"
+        maskClosable={false}
+        className="user-modal"
+      >
+        <Form
+          form={form}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={handleFinish}
+        >
+          {modalType ? (
+            <Form.Item label="身份ID" name="id">
+              <Input disabled />
+            </Form.Item>
+          ) : null}
+          <Form.Item
+            label="姓名"
+            name="name"
+            rules={[{ required: true, message: "请输入姓名" }]}
+          >
+            <Input placeholder="请输入姓名" />
+          </Form.Item>
+          <Form.Item
+            label="角色"
+            name="role"
+            rules={[{ required: true, message: "请输入角色" }]}
+          >
+            <Input placeholder="请输入角色" />
+          </Form.Item>
+          <Form.Item
+            label="主要技能"
+            name="skills"
+            rules={[{ required: true, message: "请输入主要技能" }]}
+          >
+            <Input placeholder="请输入主要技能" />
+          </Form.Item>
+          <Form.Item
+            label="居住地"
+            name="region"
+            rules={[{ required: true, message: "请输入居住地" }]}
+          >
+            <Input placeholder="请输入居住地" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
