@@ -165,7 +165,6 @@ Mock.mock(/user\/getUser/, "get", (config) => {
   const pageList = mockList.filter(
     (item, index) => index < limit * page && index >= limit * (page - 1)
   );
-  console.log(mockList.length);
   return {
     code: 200,
     total: mockList.length,
@@ -255,3 +254,4 @@ Mock.mock(/user\/deleteUser/, "post", (config) => {
     };
   }
 });
+

@@ -141,9 +141,7 @@ const User = () => {
     // 页面加载时执行的函数
     getTableData();
   }, []);
-  const changePage = (page, pageSize) => {
-    // 处理分页变化事件
-  };
+
   return (
     <div className="user">
       <div className="flex-box">

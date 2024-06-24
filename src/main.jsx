@@ -6,6 +6,7 @@ import "./index.css";
 import "antd/dist/reset.css";
 
 import "../mock/user/user";
+import "../mock/permission/permission";
 
 import { Provider } from "react-redux";
 import store from "./store";

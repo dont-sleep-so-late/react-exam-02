@@ -7,9 +7,13 @@ import Aside from "./components/Aside";
 import Nav from "./components/Nav";
 import Tag from "./components/Tag";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
-  // const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  if (localStorage.getItem("token") === null) {
+    navigate("/login");
+  }
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -19,7 +23,9 @@ const App = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Aside collapsed={collapsed} />
-      <Layout>
+      <Layout
+        style={{ marginLeft: collapsed ? 80 : 200, transition: "all 0.5s" }}
+      >
         <Nav collapsed={collapsed} />
         <Tag />
         <Content

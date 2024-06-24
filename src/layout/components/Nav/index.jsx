@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const { Header } = Layout;
 import { Button, Layout, Avatar, Dropdown, Menu } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
@@ -7,14 +8,17 @@ import { useDispatch } from "react-redux";
 import { changeCollapse } from "../../../store/reducers/tab";
 
 const Nav = ({ collapsed }) => {
+  const navigate = useNavigate();
   const items = [
     {
       key: "1",
       label: (
         <a
-          href="https://www.antgroup.com"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => {
+            navigate("/userSettings");
+          }}
         >
           个人中心
         </a>
@@ -24,12 +28,11 @@ const Nav = ({ collapsed }) => {
       key: "2",
       label: (
         <a
-          href="https://www.aliyun.com"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => {
             localStorage.removeItem("token");
-            window.location.reload();
+            navigate("/login");
           }}
         >
           退出登录

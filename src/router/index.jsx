@@ -5,6 +5,7 @@ import Home from "../pages/home/Home";
 import Mail from "../pages/mail/Mail";
 import User from "../pages/user/User";
 import UserSettings from "../pages/userSettings/UserSettings";
+import Login from "../pages/login/Login";
 
 const routes = [
   {
@@ -36,6 +37,10 @@ const routes = [
         Component: UserSettings,
       },
     ],
+  },
+  {
+    path: "/login",
+    Component: Login,
   },
 ];
 

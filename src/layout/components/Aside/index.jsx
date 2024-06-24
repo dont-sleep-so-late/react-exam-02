@@ -35,7 +35,20 @@ const Aside = ({ collapsed }) => {
     navigate(e.key);
   };
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Sider
+      style={{
+        overflow: "auto",
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+        top: 0,
+        bottom: 0,
+        transition: "all 0.5s",
+      }}
+      trigger={null}
+      collapsible
+      collapsed={collapsed}
+    >
       <h1 className="app-name">{collapsed ? "你好" : "你别睡这么晚"}</h1>
       <Menu
         theme="dark"
