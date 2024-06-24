@@ -8,17 +8,21 @@ export const getEchartData = () => {
   return request.get("/home/getEchartData");
 };
 
-export const getUser = (param) => {
-  return request.get("/user/getUser");
+export const getUser = (params) => {
+  return request.request({
+    url: "/user/getUser",
+    method: "get",
+    params,
+  });
 };
-export const addUser = (param) => {
-  return request.post("/user/addUser", param);
+export const addUser = (params) => {
+  return request.post("/user/addUser", params);
 };
 
-export const updateUser = (param) => {
-  return request.post("/user/updateUser", param);
+export const updateUser = (params) => {
+  return request.post("/user/updateUser", params);
 };
 
-export const deleteUser = (param) => {
-  return request.post("/user/deleteUser", param);
+export const deleteUser = (params) => {
+  return request.post("/user/deleteUser", params);
 };

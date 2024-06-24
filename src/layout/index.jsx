@@ -1,11 +1,11 @@
 import React from "react";
 import "./index.css";
-
 import { Layout, theme } from "antd";
 import { Outlet } from "react-router-dom";
 const { Content } = Layout;
-import Aside from "./components/Aside/index";
-import Nav from "./components/Nav/index";
+import Aside from "./components/Aside";
+import Nav from "./components/Nav";
+import Tag from "./components/Tag";
 import { useSelector } from "react-redux";
 
 const App = () => {
@@ -21,6 +21,7 @@ const App = () => {
       <Aside collapsed={collapsed} />
       <Layout>
         <Nav collapsed={collapsed} />
+        <Tag />
         <Content
           style={{
             margin: "24px 16px",

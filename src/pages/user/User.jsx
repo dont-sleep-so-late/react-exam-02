@@ -6,11 +6,13 @@ import { getUser, addUser, updateUser, deleteUser } from "../../api/home";
 
 const User = () => {
   const [tableData, setTableData] = useState([]);
-  const [listData, setListData] = useState({});
+  const [total, setTotal] = useState(0);
+  const [listData, setListData] = useState({
+    name: "",
+  });
   const [modalType, setModalType] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [messageApi, contextHolder] = message.useMessage();
 
   const columns = [
     {
@@ -88,14 +90,19 @@ const User = () => {
   const handleFinish = (e) => {
     // 处理表单提交事件
     setListData({
-      name: e.name,
+      name: e.username,
     });
   };
 
+  useEffect(() => {
+    getTableData();
+  }, [listData]);
+
   const getTableData = async () => {
     // 获取表格数据
-    getUser().then(({ data }) => {
-      setTableData(data);
+    getUser(listData).then((res) => {
+      setTableData(res.data);
+      setTotal(res.total);
     });
   };
 
@@ -134,7 +141,9 @@ const User = () => {
     // 页面加载时执行的函数
     getTableData();
   }, []);
-
+  const changePage = (page, pageSize) => {
+    // 处理分页变化事件
+  };
   return (
     <div className="user">
       <div className="flex-box">
@@ -157,7 +166,25 @@ const User = () => {
           </Form.Item>
         </Form>
       </div>
-      <Table dataSource={tableData} columns={columns} rowKey={"id"} />;
+      <Table
+        dataSource={tableData}
+        columns={columns}
+        rowKey={"id"}
+        pagination={{
+          total: total,
+          showSizeChanger: true,
+          onChange: (current, pageSize) => {
+            setListData({
+              page: current,
+              limit: pageSize,
+            });
+          },
+          pageSizeOptions: [10, 20, 50, 100],
+          showTotal: (total) => `共 ${total} 条`,
+          defaultPageSize: 10,
+        }}
+      />
+
       <Modal
         title={modalType ? "编辑用户" : "新增用户"}
         open={isModalOpen}

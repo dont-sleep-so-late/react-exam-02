@@ -4,6 +4,23 @@ import Mock from "mockjs";
 Mock.setup({
   timeout: "200-600",
 });
+
+// get请求从config.url获取参数，post从config.body中获取参数
+function param2Obj(url) {
+  const search = url.split("?")[1];
+  if (!search) {
+    return {};
+  }
+  return JSON.parse(
+    '{"' +
+      decodeURIComponent(search)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"') +
+      '"}'
+  );
+}
+
 let List = [
   {
     id: 1,
@@ -130,43 +147,29 @@ Mock.mock(/home\/getData/, "get", () => {
   return {
     code: 200,
     msg: "success",
-    data: [
-      {
-        id: 1,
-        name: "张三",
-        role: "软件工程师",
-        skills: "Python",
-        region: "北京",
-      },
-      {
-        id: 2,
-        name: "李四",
-        role: "数据分析师",
-        skills: "R",
-        region: "上海",
-      },
-      {
-        id: 3,
-        name: "王五",
-        role: "产品经理",
-        skills: "需求分析",
-        region: "深圳",
-      },
-      {
-        id: 4,
-        name: "赵六",
-        role: "UI设计师",
-        skills: "Photoshop",
-        region: "广州",
-      },
-      {
-        id: 5,
-        name: "钱七",
-        role: "前端工程师",
-        skills: "HTML, CSS, JavaScript",
-        region: "杭州",
-      },
-    ],
+    data: List,
+  };
+});
+
+Mock.mock(/user\/getUser/, "get", (config) => {
+  const { name, page = 1, limit = 10 } = param2Obj(config.url);
+  const mockList = List.filter((user) => {
+    if (
+      name &&
+      user.name.indexOf(name) === -1 &&
+      user.role.indexOf(name) === -1
+    )
+      return false;
+    return true;
+  });
+  const pageList = mockList.filter(
+    (item, index) => index < limit * page && index >= limit * (page - 1)
+  );
+  console.log(mockList.length);
+  return {
+    code: 200,
+    total: mockList.length,
+    data: pageList,
   };
 });
 
@@ -197,16 +200,8 @@ Mock.mock(/home\/getEchartData/, "get", () => {
     },
   };
 });
-Mock.mock(/user\/getUser/, "get", () => {
-  return {
-    code: 200,
-    msg: "success",
-    data: List,
-  };
-});
 
 Mock.mock(/user\/addUser/, "post", (config) => {
-  console.log("config", config);
   const { name, role, skills, region } = JSON.parse(config.body);
   List.unshift({
     id: Mock.Random.guid(),

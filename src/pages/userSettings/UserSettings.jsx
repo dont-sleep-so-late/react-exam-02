@@ -10,7 +10,7 @@ const UserSettings = () => {
     <div className="user">
       <div className="flex-box">
         <Button type="primary" onClick={handleClick("add")}>
-          新增
+          个人设置页面
         </Button>
       </div>
     </div>
