@@ -2,20 +2,36 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const { Header } = Layout;
 import { Button, Layout, Avatar, Dropdown, Menu } from "antd";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+} from "@ant-design/icons";
 import "./index.css";
 import { useDispatch } from "react-redux";
 import { changeCollapse } from "../../../store/reducers/tab";
+import screenfull from "screenfull";
 
 const Nav = ({ collapsed }) => {
   const navigate = useNavigate();
+  const [fullScreen, setFullScreen] = useState(false);
+
+  const handleFullscreen = () => {
+    // 切换全屏
+    if (!screenfull.isEnabled) {
+      message.error("you browser can not work");
+      return false;
+    }
+    setFullScreen(!fullScreen);
+    screenfull.toggle();
+  };
+
   const items = [
     {
       key: "1",
       label: (
         <a
-          target="_blank"
-          rel="noopener noreferrer"
           onClick={() => {
             navigate("/userSettings");
           }}
@@ -28,8 +44,6 @@ const Nav = ({ collapsed }) => {
       key: "2",
       label: (
         <a
-          target="_blank"
-          rel="noopener noreferrer"
           onClick={() => {
             localStorage.removeItem("token");
             navigate("/login");
@@ -59,6 +73,20 @@ const Nav = ({ collapsed }) => {
         onClick={changeCollapsed}
       />
       <div className="right-menu">
+        <Button
+          type="text"
+          onClick={() => {
+            handleFullscreen();
+          }}
+          style={{
+            fontSize: "16px",
+            width: 64,
+            height: 64,
+            borderRadius: "10px",
+          }}
+        >
+          {fullScreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
+        </Button>
         <Dropdown menu={{ items }}>
           <Avatar
             className="logo"

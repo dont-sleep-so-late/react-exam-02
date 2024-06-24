@@ -17,6 +17,7 @@ const User = () => {
   const columns = [
     {
       title: "身份ID",
+      width: 150,
       dataIndex: "id",
       key: "id",
     },
@@ -42,6 +43,8 @@ const User = () => {
     },
     {
       title: "操作",
+      width: 170,
+      fixed: "right",
       render: (rowData) => (
         <div className="flex-box">
           <Button

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
   //在存在token的情况下，跳转到home
   if (localStorage.getItem("token")) {
-    navigate("/home");
+    return <Navigate to="/home" replace />;
   }
   const [form] = Form.useForm();
   // 记住密码
@@ -83,8 +83,16 @@ const Login = () => {
               />
             </Form.Item>
             <Form.Item name="remember" valuePropName="remember">
-              <Checkbox onChange={onChange} checked={remember}>
-                记住密码
+              <Checkbox
+                onChange={onChange}
+                checked={remember}
+                style={{
+                  display: "flex",
+                  flexDirection: "row-reverse",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span style={{ marginRight: 150 }}>记住密码</span>
               </Checkbox>
             </Form.Item>
             <Form.Item>

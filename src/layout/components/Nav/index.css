@@ -15,4 +15,8 @@
     align-items: center;
     cursor: pointer;
   }
+  .right-menu {
+    display: flex;
+    align-items: center;
+  }
 }

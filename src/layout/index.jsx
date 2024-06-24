@@ -7,13 +7,10 @@ import Aside from "./components/Aside";
 import Nav from "./components/Nav";
 import Tag from "./components/Tag";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { RouterAuth } from "../router/routerAuth";
 
 const App = () => {
-  const navigate = useNavigate();
-  if (localStorage.getItem("token") === null) {
-    navigate("/login");
-  }
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -21,26 +18,28 @@ const App = () => {
   const collapsed = useSelector((state) => state.tab.isCollapsed);
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Aside collapsed={collapsed} />
-      <Layout
-        style={{ marginLeft: collapsed ? 80 : 200, transition: "all 0.5s" }}
-      >
-        <Nav collapsed={collapsed} />
-        <Tag />
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
+    <RouterAuth>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Aside collapsed={collapsed} />
+        <Layout
+          style={{ marginLeft: collapsed ? 80 : 200, transition: "all 0.5s" }}
         >
-          <Outlet />
-        </Content>
+          <Nav collapsed={collapsed} />
+          <Tag />
+          <Content
+            style={{
+              margin: "24px 16px",
+              padding: 24,
+              minHeight: 280,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            <Outlet />
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </RouterAuth>
   );
 };
 export default App;
